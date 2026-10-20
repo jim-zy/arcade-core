@@ -1,0 +1,25 @@
+{
+  "name": "@peacestay/arcade-core",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Acrade core package for peacestay",
+  "main": "./dist/index.js",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "Zhiyuan Zhao",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
