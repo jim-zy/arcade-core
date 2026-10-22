@@ -1,4 +1,4 @@
-import type { Board, Direction, Tile } from "./types.js";
+import type { Board, Direction, Tile, Position } from "./types.js";
 
 export interface MergeResult {
     tiles: Tile[];
@@ -104,7 +104,7 @@ function distanceFromWall(tile: Tile, direction: Direction, size: number): numbe
     }
 }
 
-function positionFor(direction: Direction, line: number, index: number, size: number): { row: number; col: number } {
+function positionFor(direction: Direction, line: number, index: number, size: number): Position {
     switch (direction) {
         case 'up':
             return { row: index, col: line };

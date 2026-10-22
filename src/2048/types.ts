@@ -15,3 +15,8 @@ export interface Board {
 	nextId: number;
 }
 
+export interface Position {
+	row: number;
+	col: number;
+}
+
