@@ -1,4 +1,4 @@
-import type { Board, Direction, Tile, Position } from "./types.js";
+import type { Board, Direction } from "./types.js";
 import { move } from "./move.js";
 
 export function score(board: Board): number {
@@ -7,9 +7,11 @@ export function score(board: Board): number {
 
 export function hasMoves(board: Board): boolean {
     for (const direction of ['up', 'down', 'left', 'right'] as Direction[]) {
-        if (move(board, direction) !== board) {
-            return true;
-        }
+        if (canMove(board, direction)) return true;
     }
     return false;
+}
+
+export function canMove(board: Board, direction: Direction): boolean {
+    return move(board, direction) !== board;
 }

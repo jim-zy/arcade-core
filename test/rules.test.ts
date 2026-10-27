@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { makeBoard } from './helper.js';
-import { score, hasMoves } from '../src/2048/rules.js';
+import { score, hasMoves, canMove } from '../src/2048/rules.js';
 import { move } from '../src/2048/move.js';
 
 describe('score', () => {
@@ -66,5 +66,27 @@ describe('hasMoves', () => {
             [4, 2, 4, 8]
         ]);
         expect(hasMoves(board)).toBe(true);
+    });
+
+    describe('canMove', () => {
+        it ('should return true if a move is possible in a given direction', () => {
+            const board = makeBoard([
+                [2, 2, 0, 0],
+                [0, 4, 0, 4],
+                [2, 0, 0, 0],
+                [0, 0, 0, 8]
+            ]);
+            expect(canMove(board, 'left')).toBe(true);
+        });
+
+        it ('should return false if no move is possible in a given direction', () => {
+            const board = makeBoard([
+                [2, 4, 2, 4],
+                [4, 2, 4, 2],
+                [2, 4, 2, 4],
+                [4, 2, 4, 8]
+            ]);
+            expect(canMove(board, 'left')).toBe(false);
+        });
     });
 });

@@ -12,3 +12,11 @@
 - `Tile`, represents a tile with attributes
 - `Direction`, union type of left, right, up and down
 - `Position`, wrapper for row, col coord
+
+## [0.2.0] - 2026-10-27
+
+### Added
+- `canMove(board, direction)`, flag for possible move in a certain direction, hasMoves now use canMove as helper function
+
+### Note
+score() was implemented before the update, keep it unchanged to display the score

@@ -49,6 +49,9 @@ points earned by the move
 ### `hasMoves(board): boolean`
 use move in four directions too see if any move is possible
 
+### `canMove(board, direction): boolean`
+boolean flag if the board could move in a specific direction
+
 ## Key Types
 
 ### Board
