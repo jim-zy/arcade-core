@@ -1,6 +1,6 @@
 {
   "name": "@peacestay/arcade-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Arcade core package for 2048 game logic",
   "main": "./dist/index.js",
