@@ -14,7 +14,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "npm test && npm run build"
   },
   "keywords": [],
   "author": "Zhiyuan Zhao",
