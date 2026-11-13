@@ -33,28 +33,40 @@ if hasMoves() is false -> game ends
 
 ## API
 
-### `createBoard(): Board`
+### 2048
+
+#### `createBoard(): Board`
 create a Board object with empty cells
 
-### `move(board, direction): Board`
+#### `move(board, direction): Board`
 move a board given the direction, merge or just move the cells if possible, return the same board if neither
 
-### `spawn(board, rng?): Board`
+#### `spawn(board, rng?): Board`
 spawn a cell with value 2 or 4, rng is optional, math.random by default
 call rng first to pick a cell, and call it again for 2 or 4 (<0.9 -> 2, else 4)
 
-### `score(board): number`
+#### `score(board): number`
 points earned by the move 
 
-### `hasMoves(board): boolean`
+#### `hasMoves(board): boolean`
 use move in four directions too see if any move is possible
 
-### `canMove(board, direction): boolean`
+#### `canMove(board, direction): boolean`
 boolean flag if the board could move in a specific direction
+
+### Battleship
+
+#### `createRandomBoard`
+creates a board with random distrubtion of fleet, retry limit to 100\
+
+#### `updateBoard(BattleshipBoard, x, y)` 
+adds a Shot of x, y coord with the hit flag, return the new board
 
 ## Key Types
 
-### Board
+### 2048
+
+#### Board
 
 Represents a board with size=4 by default, a list of Tiles and the id number of next cell
 id starts at 1 incremented whenever there's a new tile spawned or a valid merge.
@@ -67,7 +79,7 @@ export interface Board {
 }
 ```
 
-### Tile
+#### Tile
 
 Represents a cell with a value
 id is number passed from the nextId in the board, row, col are the coords
@@ -85,4 +97,33 @@ export interface Tile {
 }
 ```
 
+### Battleship
 
+#### BattleshipBoard
+Board with its list of Ship and Shot
+
+```ts
+export interface BattleshipBoard {
+    ships: Ship[];
+    shots: Shot[];
+}
+```
+
+#### Ship
+Ship with its name and coords list
+
+```ts
+export interface Ship {
+    name: ShipName;
+    cells: Coordinate[];
+}
+```
+
+#### Shot
+Shot extends coord and a hit flag=true if the shot is on a ship cell
+
+```ts
+export interface Shot extends Coordinate {
+    hit: boolean;
+}
+```

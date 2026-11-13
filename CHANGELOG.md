@@ -20,3 +20,16 @@
 
 ### Note
 score() was implemented before the update, keep it unchanged to display the score
+
+## [0.3.0] - 2026-11-12
+
+### Added
+- `Coordinate`, represents a coord the battle field, x-col, y-row
+- `Ship`, represents a Ship with its name and coords as list within
+- `ShipName`, shipName enum
+- `Shot`, extend coord + boolean flag of hitting a ship cell
+- `BattleshipBoard`, boards contains the ships and shots as list
+
+- `updateBoard(BattleshipBoard, x, y)`, adds a Shot of x, y coord with the hit flag, hit is true when a ship cell is hit
+- `createRandomBoard(random)`, creates a board with random distrubtion of fleet, retry limit to 100 before error thrown
+
