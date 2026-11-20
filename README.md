@@ -1,6 +1,6 @@
 # @peacestay/arcade-core
 
-Arcade core package for 2048 game logics, for Student Zhiyuan Zhao in CS5610 course
+Arcade core package for 2048, Battleship and Liar's Dice game logics, for Student Zhiyuan Zhao in CS5610 course
 
 ## Install
 
@@ -61,6 +61,54 @@ creates a board with random distrubtion of fleet, retry limit to 100\
 
 #### `updateBoard(BattleshipBoard, x, y)` 
 adds a Shot of x, y coord with the hit flag, return the new board
+
+### Liar's Dice
+
+All functions are pure and return a new state, the old one is never changed.
+`random` is passed in (e.g. `Math.random`) so tests can use a fake one.
+Functions that change the game throw an `Error` on an illegal move.
+
+#### Rules used
+
+- 3 or more players to start, each with 5 dice
+- every player re-rolls at the start of each round, you only see your own dice
+- ones are wild, you can only bid on faces 2 to 6
+- a bid must raise: a higher quantity, or the same quantity with a higher face
+- a bid can be higher than the total number of dice on the table
+- you can challenge the last bid. If the bid stands and the challenger loses a die, otherwise the bidder loses a die
+- the loser starts the next round, skip eliminated players
+- a player with no dice is out, the last player with dice wins
+- a player who leaves is out, and the round restarts
+
+#### `rollDice(count, random): Face[]`
+roll `count` dice, throws if `random` returns a value outside [0, 1)
+
+#### `countMatching(allDice, face): number`
+number of dice showing `face`, ones included
+
+#### `isHigherBid(bid, previousBid): boolean`
+true if `bid` raises `previousBid`, always true when `previousBid` is null
+
+#### `resolveChallenge(bid, allDice): boolean`
+true if the bid stands (enough matching dice)
+
+#### `startGame(players, random): GameState`
+everyone rolls 5 dice, first player in the list starts, throws with fewer than 3 players
+
+#### `applyBid(state, playerId, bid): GameState`
+place a bid and pass the turn to the next player with dice
+
+#### `applyChallenge(state, playerId, random): GameState`
+challenge the current bid, save the reveal, take a die from the loser, re-roll everyone, set the winner if only one player has dice left
+
+#### `removePlayer(state, playerId, random): GameState`
+set the player's dice to none, re-roll the others and clear the bid. Returns the same state if the player is already out or not in the game
+
+#### `setConnected(state, playerId, connected): GameState`
+update a player's connected flag, nothing else changes
+
+#### `viewFor(state, playerId): PlayerView`
+what one player is allowed to see: their own dice, and only the dice count of everyone else
 
 ## Key Types
 
@@ -125,5 +173,73 @@ Shot extends coord and a hit flag=true if the shot is on a ship cell
 ```ts
 export interface Shot extends Coordinate {
     hit: boolean;
+}
+```
+
+### Liar's Dice
+
+#### GameState
+The full game, kept on the server only since it has everyone's dice
+
+```ts
+export interface GameState {
+    status: 'playing' | 'finished';
+    players: Player[];
+    turnPlayerId: string;
+    currentBid: { playerId: string; bid: Bid } | null;
+    lastReveal: Reveal | null;
+    winnerId: string | null;
+}
+```
+
+#### Player
+A player in the game, an empty `dice` list means the player is out
+
+```ts
+export interface Player {
+    id: string;
+    username: string;
+    dice: Face[];
+    connected: boolean;
+}
+```
+
+#### Bid
+A quantity and a face, e.g. "four 5s"
+
+```ts
+export interface Bid {
+    quantity: number;
+    face: BidFace; // 2 to 6
+}
+```
+
+#### Reveal
+The result of the last challenge, keeps each player's dice from that round
+
+```ts
+export interface Reveal {
+    bid: Bid;
+    bidderId: string;
+    challengerId: string;
+    actualDice: { [playerId: string]: Face[] };
+    actualCount: number;
+    loserId: string;
+}
+```
+
+#### PlayerView
+What one player receives: their own dice, and `PublicPlayer` (id, username, diceCount, connected) for everyone
+
+```ts
+export interface PlayerView {
+    yourId: string;
+    dice: Face[];
+    players: PublicPlayer[];
+    status: 'playing' | 'finished';
+    turnPlayerId: string;
+    currentBid: { playerId: string; bid: Bid } | null;
+    lastReveal: Reveal | null;
+    winnerId: string | null;
 }
 ```
