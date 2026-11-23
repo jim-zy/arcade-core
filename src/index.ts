@@ -16,3 +16,6 @@ export { rollDice, countMatching } from "./liarsDice/dice.js";
 export { viewFor } from "./liarsDice/view.js";
 export { startGame, applyBid, applyChallenge, removePlayer, setConnected } from "./liarsDice/game.js";
 export { isHigherBid, resolveChallenge } from "./liarsDice/rules.js";
+// realtime
+export type { ClientMessage, ServerMessage } from "./liarsDice/protocol.js";
+export { parseClientMessage } from "./liarsDice/protocol.js";

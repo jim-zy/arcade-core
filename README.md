@@ -110,6 +110,32 @@ update a player's connected flag, nothing else changes
 #### `viewFor(state, playerId): PlayerView`
 what one player is allowed to see: their own dice, and only the dice count of everyone else
 
+#### `parseClientMessage(raw): ClientMessage`
+check a value from `JSON.parse` and return it as a `ClientMessage`, throws if the shape is wrong.
+Checks the ticket is a string, and for a bid that the quantity is a positive integer and the face is 2 to 6.
+`start` and `challenge` need no payload, any payload sent is ignored
+
+### Socket protocol
+
+Every message is JSON with a `type` and a `payload`.
+
+Client to server:
+
+| type | payload | when |
+|---|---|---|
+| `auth` | `{ ticket }` | first message after connecting |
+| `start` | `{}` | start the game, needs 3 or more connected players |
+| `bid` | `{ quantity, face }` | your turn, raise the current bid |
+| `challenge` | `{}` | your turn, challenge the current bid |
+
+Server to client:
+
+| type | payload | when |
+|---|---|---|
+| `lobby` | `{ roomId, players: [{ id, username, connected }] }` | before the game starts, after anyone joins or leaves |
+| `state` | `PlayerView` | after the game starts, after every change, built for each player |
+| `error` | `{ message }` | a message was rejected, sent only to the sender |
+
 ## Key Types
 
 ### 2048

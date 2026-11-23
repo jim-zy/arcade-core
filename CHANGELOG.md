@@ -56,3 +56,10 @@ score() was implemented before the update, keep it unchanged to display the scor
 - `removePlayer(state, playerId, random)`, a player who left is out, round restarts
 - `setConnected(state, playerId, connected)`, update the connected flag only
 - `viewFor(state, playerId)`, build the PlayerView for one player
+
+## [0.5.0] - 2026-11-22
+
+### Added
+- `ClientMessage`, the messages a player sends over the socket: `auth`, `start`, `bid`, `challenge`
+- `ServerMessage`, the messages the server sends back: `lobby`, `state`, `error`
+- `parseClientMessage(raw)`, turn a parsed JSON value into a `ClientMessage`, throws if the shape is wrong
